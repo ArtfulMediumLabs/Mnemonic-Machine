@@ -6,7 +6,7 @@
 const synth = new Tone.Synth().toDestination();
 
 function createPart(values) {
-    let part = new Tone.Part(((time, value) => {
+    part = new Tone.Part(((time, value) => {
         synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
     }), values);
     
