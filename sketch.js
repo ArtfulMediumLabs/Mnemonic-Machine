@@ -3,6 +3,8 @@ function preload() {
   toasterImg = loadImage('img/toaster.png');
   waffleImg = loadImage('img/waffle.png');
   leggoImg = loadImage('img/leggo.png');
+
+  playImg = loadImage('img/play.png');
 }
 
 function setup() {
@@ -25,4 +27,13 @@ function draw() {
   image(toasterImg, 74, 305);
   image(waffleImg, 71, 570);
   image(leggoImg, 63, 857);
+
+  image(playImg, 344, 869);
+}
+
+function mousePressed() {
+  Tone.start();
+  console.log('toggle', Tone.Transport.state);
+  Tone.Transport.toggle();
+  return false;
 }
