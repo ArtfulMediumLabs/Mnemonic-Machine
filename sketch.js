@@ -1,7 +1,15 @@
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(1024, 768);
   }
   
   function draw() {
-    background(220);
+    background('#FFD126');
+
+    let menuColor = color('#FFFFFF');
+    menuColor.setAlpha(76);
+    fill(menuColor);
+
+    noStroke();
+
+    rect(0,0,164,768);
   }
