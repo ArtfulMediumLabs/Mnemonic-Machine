@@ -9,6 +9,9 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1080);
+    notes = randomNotes();
+    createPart(notes);
+    console.log(notes);
 }
 
 
@@ -33,7 +36,31 @@ function draw() {
 
 function mousePressed() {
   Tone.start();
-  console.log('toggle', Tone.Transport.state);
+  // console.log('toggle', Tone.Transport.state);
   Tone.Transport.toggle();
   return false;
+}
+
+function randomNotes() {
+  let count = 3 + Math.floor(Math.random() * 4);
+  return Array.from({length: count}, randomNote);
+}
+
+function randomNote() {
+  let velocity = Math.random();
+  
+  let partDuration = 2 * 4 * 4;
+
+  let sixteenths = Math.floor(Math.random() * partDuration);
+  let inSixteenths = sixteenths;
+  let measures = Math.floor(sixteenths / 16);
+  sixteenths %= 16;
+  let quarters = Math.floor(sixteenths / 4);
+  sixteenths %= 4;
+  let time = measures + ":" + quarters + ":" + sixteenths;
+
+  let notes = ['C2', 'C3', 'C4', 'C5']
+  let index = Math.floor(Math.random() * notes.length);
+
+  return {'time': time, 'sixteenths': inSixteenths, 'note': notes[index], 'velocity': velocity }
 }
