@@ -1,7 +1,8 @@
 let draggingIx;
 let draggingOffset;
 let notes;
-let noteImgs = [];
+let noteImgs;
+let playButton;
 
 function preload() {
   dingImg = loadImage('img/ding.png');
@@ -32,6 +33,8 @@ function setup() {
       let newNote = new Note(left,top,img);
       noteImgs.push(newNote)
     });
+
+    playButton = new Button(playImg, 344, 869);
 }
 
 
@@ -51,7 +54,7 @@ function draw() {
   image(waffleImg, 71, 570);
   image(leggoImg, 63, 857);
 
-  image(playImg, 344, 869);
+  playButton.display();
 
   noteImgs.forEach( (note) => { note.display(); })
 
@@ -60,17 +63,17 @@ function draw() {
   rect(menuWidth + 8, 1080-20, barLength, 20);
 }
 
-// function mousePressed() {
-//   Tone.start();
-//   // console.log('toggle', Tone.Transport.state);
-//   Tone.Transport.toggle();
-//   return false;
-// }
+
 
 function mousePressed() {
   // Hit test in reverse order so that the top most element gets hit first
+
+  if ( playButton.inBounds(mouseX, mouseY) ) {
+    play();
+    return;
+  }
+
   for (let i = noteImgs.length - 1; i >= 0; i--) {
-    print(mouseX, mouseY, i, noteImgs[i].x, noteImgs[i].y)
     if (mouseX >= noteImgs[i].x && mouseX <= noteImgs[i].x + noteImgs[i].img.width &&
       mouseY >= noteImgs[i].y && mouseY <= noteImgs[i].y + noteImgs[i].img.height) {
       let relativePos = createVector(mouseX - noteImgs[i].x, mouseY - noteImgs[i].y);
@@ -79,6 +82,12 @@ function mousePressed() {
       break;
     }
   }
+}
+
+function play() {
+  Tone.start();
+  Tone.Transport.toggle();
+  return false;
 }
 
 function mouseReleased() {
@@ -100,7 +109,34 @@ class Note {
   }
 
   display() {
-    // print(this.x, this.y, this.url);
     image(this.img, this.x, this.y);
   }
+}
+
+class Button {
+  constructor(img, x, y) {
+    this.x = x;
+    this.y = y;
+    this.img = img;
+  }
+
+  maxX() {
+    return this.x + this.img.width;
+  }
+
+  maxY() {
+    return this.y + this.img.height;
+  }
+
+  inBounds(x, y) {
+    return ( between(x, this.x, this.maxX()) && between(y, this.y, this.maxY()) );
+  }
+
+  display() {
+    image(this.img, this.x, this.y);
+  } 
+}
+
+function between(x, min, max) {
+  return x >= min && x <= max;
 }
