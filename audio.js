@@ -8,6 +8,9 @@ const synth = new Tone.Synth().toDestination();
 const totalDuration = 4.0;
 
 function createPart(values) {
+    if (typeof part !== "undefined") { 
+        part.dispose()
+    }
     part = new Tone.Part(((time, value) => {
         synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
     }), values);

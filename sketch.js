@@ -1,6 +1,5 @@
 let draggingIx;
 let draggingOffset;
-let notes;
 let noteImgs;
 let playButton;
 
@@ -22,7 +21,7 @@ function setup() {
     sequenceHeight = 869 - 229 - 16;
 
     partDuration = 2 * 4 * 4;
-    notes = randomNotes();
+    let notes = randomNotes();
     createPart(notes);
 
     noteImgs = [];
@@ -30,7 +29,7 @@ function setup() {
       let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
       let top = (1 - note.velocity) * sequenceHeight + 8;
       let img = [dingImg, toasterImg, waffleImg, leggoImg][note.noteIndex];
-      let newNote = new Note(left,top,img);
+      let newNote = new Note(img,left,top,note);
       noteImgs.push(newNote)
     });
 
@@ -64,11 +63,9 @@ function draw() {
 }
 
 
-
 function mousePressed() {
-  // Hit test in reverse order so that the top most element gets hit first
-
   if ( playButton.inBounds(mouseX, mouseY) ) {
+    updatePart();
     play();
     return;
   }
@@ -84,6 +81,11 @@ function mousePressed() {
   }
 }
 
+function updatePart() {
+  let notes = noteImgs.map((note) => note.noteValue ) 
+  createPart(notes);
+}
+
 function play() {
   Tone.start();
   Tone.Transport.toggle();
@@ -91,6 +93,7 @@ function play() {
 }
 
 function mouseReleased() {
+  updatePart();
   draggingIx = draggingOffset = undefined;
 }
 
@@ -98,18 +101,27 @@ function mouseDragged() {
   if (draggingIx >= 0) {
     noteImgs[draggingIx].x = mouseX - draggingOffset.x;
     noteImgs[draggingIx].y = mouseY - draggingOffset.y;
+    noteImgs[draggingIx].updateValue();
   }
 }
 
 class Note {
-  constructor(x, y, img) {
+  constructor(img, x, y, noteValue) {
     this.x = x;
     this.y = y;
     this.img = img;
+    this.noteValue = noteValue;
   }
 
   display() {
     image(this.img, this.x, this.y);
+  }
+
+  updateValue() {
+    // let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
+    this.noteValue.time = ( this.x - (menuWidth + 8) ) / sequenceWidth * totalDuration;
+    // let top = (1 - note.velocity) * sequenceHeight + 8;
+    this.noteValue.velocity = (1 - (this.y - 8) / sequenceHeight);
   }
 }
 
