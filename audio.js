@@ -3,7 +3,23 @@
 // 	player.start();
 // });
 
-const synth = new Tone.Synth().toDestination();
+//const synth = new Tone.Synth().toDestination();
+
+
+const sampler = new Tone.Sampler({
+	urls: {
+		"C1": "bss_eggo_ding_1.wav",
+        "C#1": "bss_eggo_ding_2.wav",
+        "C2": "bss_eggo_leggo_1.wav",
+        "C#2": "bss_eggo_leggo_2.wav",
+        "C3": "bss_eggo_toaster_1.wav",
+        "C#3": "bss_eggo_toaster_2.wav",
+        "C4": "bss_eggo_waffle_1.wav",
+        "C#4": "bss_eggo_waffle_2.wav"
+	},
+	release: 1,
+	baseUrl: "./audio/",
+}).toDestination();
 
 const totalDuration = 4.0;
 
@@ -12,7 +28,7 @@ function createPart(values) {
         part.dispose()
     }
     part = new Tone.Part(((time, value) => {
-        synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
+        sampler.triggerAttackRelease(value.note, 2.0, time, value.velocity)
     }), values);
     
     part.loopStart = 0;
@@ -31,7 +47,7 @@ function randomNote() {
 
     let time = Math.random() * totalDuration;
 
-    let notes = ['C2', 'C3', 'C4', 'C5']
+    let notes = ['C1', 'C2', 'C3', 'C4']
     let index = Math.floor(Math.random() * notes.length);
 
     return {'time': time, 'note': notes[index], 'noteIndex': index, 'velocity': velocity }

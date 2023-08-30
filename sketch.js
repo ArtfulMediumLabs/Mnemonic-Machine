@@ -28,7 +28,7 @@ function setup() {
     notes.forEach(function (note) {
       let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
       let top = (1 - note.velocity) * sequenceHeight + 8;
-      let img = [dingImg, toasterImg, waffleImg, leggoImg][note.noteIndex];
+      let img = [dingImg, leggoImg, toasterImg, waffleImg][note.noteIndex];
       let newNote = new Note(img,left,top,note);
       noteImgs.push(newNote)
     });
