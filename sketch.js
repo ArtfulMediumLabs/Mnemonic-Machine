@@ -1,3 +1,8 @@
+let draggingIx;
+let draggingOffset;
+let notes;
+let noteImgs = [];
+
 function preload() {
   dingImg = loadImage('img/ding.png');
   toasterImg = loadImage('img/toaster.png');
@@ -18,6 +23,15 @@ function setup() {
     partDuration = 2 * 4 * 4;
     notes = randomNotes();
     createPart(notes);
+
+    noteImgs = [];
+    notes.forEach(function (note) {
+      let left = (sequenceWidth / partDuration) * note.sixteenths + menuWidth + 8;
+      let top = (1 - note.velocity) * sequenceHeight + 8;
+      let img = [dingImg, toasterImg, waffleImg, leggoImg][note.noteIndex];
+      let newNote = new Note(left,top,img);
+      noteImgs.push(newNote)
+    });
 }
 
 
@@ -39,43 +53,54 @@ function draw() {
 
   image(playImg, 344, 869);
 
-  notes.forEach(function (note) {
-    let left = (sequenceWidth / partDuration) * note.sixteenths + menuWidth + 8;
-    let top = (1 - note.velocity) * sequenceHeight + 8;
-    let img = [dingImg, toasterImg, waffleImg, leggoImg][note.noteIndex];
-    image(img, left, top);
-  });
+  noteImgs.forEach( (note) => { note.display(); })
 
   fill('red')
   let barLength = sequenceWidth * part.progress;
   rect(menuWidth + 8, 1080-20, barLength, 20);
 }
 
+// function mousePressed() {
+//   Tone.start();
+//   // console.log('toggle', Tone.Transport.state);
+//   Tone.Transport.toggle();
+//   return false;
+// }
+
 function mousePressed() {
-  Tone.start();
-  // console.log('toggle', Tone.Transport.state);
-  Tone.Transport.toggle();
-  return false;
+  // Hit test in reverse order so that the top most element gets hit first
+  for (let i = noteImgs.length - 1; i >= 0; i--) {
+    print(mouseX, mouseY, i, noteImgs[i].x, noteImgs[i].y)
+    if (mouseX >= noteImgs[i].x && mouseX <= noteImgs[i].x + noteImgs[i].img.width &&
+      mouseY >= noteImgs[i].y && mouseY <= noteImgs[i].y + noteImgs[i].img.height) {
+      let relativePos = createVector(mouseX - noteImgs[i].x, mouseY - noteImgs[i].y);
+      draggingIx = i;
+      draggingOffset = relativePos;
+      break;
+    }
+  }
 }
 
-function randomNotes() {
-  let count = 3 + Math.floor(Math.random() * 4);
-  return Array.from({length: count}, randomNote);
+function mouseReleased() {
+  draggingIx = draggingOffset = undefined;
 }
 
-function randomNote() {
-  let velocity = Math.random() * 0.9 + 0.1;
+function mouseDragged() {
+  if (draggingIx >= 0) {
+    noteImgs[draggingIx].x = mouseX - draggingOffset.x;
+    noteImgs[draggingIx].y = mouseY - draggingOffset.y;
+  }
+}
 
-  let sixteenths = Math.floor(Math.random() * partDuration);
-  let inSixteenths = sixteenths;
-  let measures = Math.floor(sixteenths / 16);
-  sixteenths %= 16;
-  let quarters = Math.floor(sixteenths / 4);
-  sixteenths %= 4;
-  let time = measures + ":" + quarters + ":" + sixteenths;
+class Note {
+  constructor(x, y, img) {
+    this.x = x;
+    this.y = y;
+    this.img = img;
+  }
 
-  let notes = ['C2', 'C3', 'C4', 'C5']
-  let index = Math.floor(Math.random() * notes.length);
-
-  return {'time': time, 'sixteenths': inSixteenths, 'note': notes[index], 'noteIndex': index, 'velocity': velocity }
+  display() {
+    // print(this.x, this.y, this.url);
+    image(this.img, this.x, this.y);
+  }
 }
