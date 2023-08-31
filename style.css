@@ -1,0 +1,11 @@
+body {
+    background-color: #2C2C2C;
+}
+
+canvas {
+    width: 95% !important;
+    height: auto !important;
+    padding: 0;
+    margin: 2.5% auto;
+    display: block;
+}
