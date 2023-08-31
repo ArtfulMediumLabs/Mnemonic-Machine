@@ -12,6 +12,8 @@ function preload() {
   waffleImg = loadImage('img/waffle.png');
   leggoImg = loadImage('img/leggo.png');
 
+  changeImg = loadImage('img/change.png');
+
   playImg = loadImage('img/play.png');
   saveImg = loadImage('img/save.png');
 }
@@ -166,7 +168,7 @@ class Note {
   display() {
     image(this.img, this.x, this.y);
     if (this.hover) {
-      rect(this.x,this.y,40,40);
+      image(changeImg,this.x,this.y);
     }
   }
 
@@ -186,7 +188,7 @@ class Note {
   }
 
   inHover(x, y) {
-    return ( between(x, this.x, this.x + 40) && between(y, this.y, this.y + 40) );
+    return ( between(x, this.x, this.x + 44) && between(y, this.y, this.y + 44) );
   }
 
   inBounds(x, y) {
