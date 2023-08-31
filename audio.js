@@ -38,16 +38,18 @@ function createPart(values) {
 }
 
 function randomNotes() {
-    let count = 3 + Math.floor(Math.random() * 4);
     return Array.from([0,1,2,3], (i) => randomNote(i));
   }
   
-function randomNote(noteIndex) {
-    let velocity = Math.random() * 0.9 + 0.1;
+function randomNote(voiceIndex) {
     let time = Math.random() * totalDuration;
-
-    let notes = ['C1', 'C2', 'C3', 'C4']
-    return {'time': time, 'note': notes[noteIndex], 'noteIndex': noteIndex, 'velocity': velocity }
+    let velocity = Math.random() * 0.9 + 0.1;
+    
+    let noteRange = ['C', 'C#'].map( (x) => x + (voiceIndex + 1) );
+    let noteIndex = Math.floor(Math.random() * noteRange.length);
+    let note = new NoteValue(time, velocity, voiceIndex, noteRange, noteIndex);
+    // return {'time': time, 'note': notes[noteIndex], 'voiceIndex': voiceIndex, 'velocity': velocity }
+    return note;
 }
 
 function randomTimeinMeasures() {
@@ -60,4 +62,26 @@ function randomTimeinMeasures() {
     let time = measures + ":" + quarters + ":" + sixteenths;
 
     return {time, inSixteenths}
+}
+
+class NoteValue {
+    constructor(time, velocity, voiceIndex, noteRange, noteIndex) {
+        this.time = time;
+        this.velocity = velocity;
+        this.voiceIndex = voiceIndex;
+        this.noteIndex = noteIndex;
+        this.noteRange = noteRange;
+    }
+
+    get note() {
+        return this.noteRange[this.noteIndex];
+    }
+
+    nextNoteIndex() {
+        this.noteIndex += 1;
+        this.noteIndex %= this.noteRange.length;
+        // print(this.noteIndex, this.note);
+        sampler.triggerAttackRelease(this.note, 2.0, undefined, this.velocity);
+    }
+
 }

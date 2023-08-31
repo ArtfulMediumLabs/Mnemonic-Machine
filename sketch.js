@@ -1,6 +1,6 @@
 let draggingIx;
 let draggingOffset;
-let noteImgs;
+let noteImgs = [];
 let playButton;
 
 function preload() {
@@ -28,7 +28,7 @@ function setup() {
     notes.forEach(function (note) {
       let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
       let top = (1 - note.velocity) * sequenceHeight + 8;
-      let img = [dingImg, leggoImg, toasterImg, waffleImg][note.noteIndex];
+      let img = [dingImg, leggoImg, toasterImg, waffleImg][note.voiceIndex];
       let newNote = new Note(img,left,top,note);
       noteImgs.push(newNote)
     });
@@ -72,7 +72,8 @@ function mousePressed() {
 
   for (let i = noteImgs.length - 1; i >= 0; i--) {
     if ( noteImgs[i].inHover(mouseX, mouseY) ) {
-      print("hover clicked", i);
+      // print("hover pressed", i, noteImgs[i], noteImgs[i].noteValue); 
+      noteImgs[i].noteValue.nextNoteIndex();
       break;
     }
     if ( noteImgs[i].inBounds(mouseX, mouseY) ) {
@@ -96,6 +97,7 @@ function play() {
 }
 
 function mouseMoved() {
+
   if (draggingIx >= 0) {
     noteImgs.forEach((noteImg, index) => noteImg.hover = false);
     return;
