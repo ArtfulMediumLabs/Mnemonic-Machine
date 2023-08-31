@@ -25,7 +25,6 @@ let midiStart = midiNumber;
 // bss_eggo_dingthing_ding_1.wav - 17
 for (var i = 1; i <= 17; i++) {
     let key = Tone.Frequency(midiNumber, "midi").toNote()
-    console.log(key);
     sampleUrls[key] = `bss_eggo_dingthing_ding_${i}.wav`;
     midiNumber++; 
 }
@@ -57,8 +56,6 @@ for (var i = 1; i <= 6; i++) {
     midiNumber++; 
 }
 noteRanges[3] = range(midiStart,midiNumber - 1);
-
-console.log(sampleUrls);
 
 const sampler = new Tone.Sampler({
 	urls: sampleUrls,
@@ -121,7 +118,6 @@ class NoteValue {
     nextNoteIndex() {
         this.noteIndex += 1;
         this.noteIndex %= noteRanges[this.voiceIndex].length;
-        console.log(this.note)
         sampler.triggerAttackRelease(this.note, 4.0, undefined, this.velocity);
     }
 
