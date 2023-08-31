@@ -70,7 +70,7 @@ function createPart(values) {
         part.dispose()
     }
     part = new Tone.Part(((time, value) => {
-        sampler.triggerAttackRelease(value.note, 2.0, time, value.velocity)
+        sampler.triggerAttackRelease(value.note, 4.0, time, value.velocity)
     }), values);
     
     part.start(0);
