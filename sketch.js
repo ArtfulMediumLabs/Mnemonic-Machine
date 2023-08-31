@@ -58,7 +58,7 @@ function draw() {
   noteImgs.forEach( (note) => { note.display(); })
 
   fill('red')
-  let barLength = sequenceWidth * part.progress;
+  let barLength = sequenceWidth * (Tone.Transport.seconds / totalDuration);
   rect(menuWidth + 8, 1080-20, barLength, 20);
 }
 
@@ -92,7 +92,9 @@ function updatePart() {
 
 function play() {
   Tone.start();
-  Tone.Transport.toggle();
+  Tone.Transport.seconds = 0;
+  Tone.Transport.start();
+  Tone.Transport.stop("+4.0");
   return false;
 }
 
