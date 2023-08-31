@@ -2,6 +2,7 @@ let draggingIx;
 let draggingOffset;
 let noteImgs = [];
 let playButton;
+let SaveButton;
 
 function preload() {
   sideImg = loadImage('img/side_graphic.png');
@@ -12,6 +13,7 @@ function preload() {
   leggoImg = loadImage('img/leggo.png');
 
   playImg = loadImage('img/play.png');
+  saveImg = loadImage('img/save.png');
 }
 
 function setup() {
@@ -38,6 +40,7 @@ function setup() {
     createNoteImgs(notes);
 
     playButton = new Button(playImg, 484, 864);
+    saveButton = new Button(saveImg, 1572, 864);
 }
 
 function createNoteImgs(notes) {
@@ -71,6 +74,7 @@ function draw() {
   // image(leggoImg, 63, 857);
 
   playButton.display();
+  saveButton.display();
 
   noteImgs.forEach( (note) => { note.display(); })
 
@@ -84,6 +88,12 @@ function mousePressed() {
   if ( playButton.inBounds(mouseX, mouseY) ) {
     updatePart();
     play();
+    return;
+  }
+
+  if ( saveButton.inBounds(mouseX, mouseY) ) {
+    let url = encodeURL();
+    document.getElementById("saveURL").innerHTML = url;
     return;
   }
 
@@ -239,4 +249,5 @@ function encodeURL() {
   })
   const searchParrams = new URLSearchParams(params);
   const new_url = new URL(`${document.location.origin}${document.location.pathname}?${searchParrams.toString()}`)
+  return new_url;
 }

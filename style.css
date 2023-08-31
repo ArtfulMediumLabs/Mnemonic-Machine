@@ -9,3 +9,10 @@ canvas {
     margin: 2.5% auto;
     display: block;
 }
+
+#saveURL {
+    margin: auto;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
