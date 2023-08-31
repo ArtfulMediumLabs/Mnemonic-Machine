@@ -39,18 +39,15 @@ function createPart(values) {
 
 function randomNotes() {
     let count = 3 + Math.floor(Math.random() * 4);
-    return Array.from({length: count}, randomNote);
+    return Array.from([0,1,2,3], (i) => randomNote(i));
   }
   
-function randomNote() {
+function randomNote(noteIndex) {
     let velocity = Math.random() * 0.9 + 0.1;
-
     let time = Math.random() * totalDuration;
 
     let notes = ['C1', 'C2', 'C3', 'C4']
-    let index = Math.floor(Math.random() * notes.length);
-
-    return {'time': time, 'note': notes[index], 'noteIndex': index, 'velocity': velocity }
+    return {'time': time, 'note': notes[noteIndex], 'noteIndex': noteIndex, 'velocity': velocity }
 }
 
 function randomTimeinMeasures() {
