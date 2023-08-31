@@ -95,7 +95,8 @@ function mousePressed() {
 
   if ( saveButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    document.getElementById("saveURL").innerHTML = url;
+    modalTinyNoFooter.setContent(`<h2>Your song is saved at link:</h2><p>${url}<p>`);
+    modalTinyNoFooter.open();
     return;
   }
 
@@ -253,3 +254,4 @@ function encodeURL() {
   const new_url = new URL(`${document.location.origin}${document.location.pathname}?${searchParrams.toString()}`)
   return new_url;
 }
+

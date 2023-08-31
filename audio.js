@@ -37,9 +37,6 @@ function createPart(values) {
         sampler.triggerAttackRelease(value.note, 2.0, time, value.velocity)
     }), values);
     
-    // part.loopStart = 0;
-    // part.loopEnd = totalDuration;
-    // part.loop = true;
     part.start(0);
 }
 
