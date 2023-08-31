@@ -2,7 +2,9 @@ let draggingIx;
 let draggingOffset;
 let noteImgs = [];
 let playButton;
-let SaveButton;
+let randomButton;
+let helpButton;
+let saveButton;
 
 function preload() {
   sideImg = loadImage('img/side_graphic.png');
@@ -15,6 +17,8 @@ function preload() {
   changeImg = loadImage('img/change.png');
 
   playImg = loadImage('img/play.png');
+  randomImg = loadImage('img/random.png');
+  helpImg = loadImage('img/help.png');
   saveImg = loadImage('img/save.png');
 }
 
@@ -42,6 +46,8 @@ function setup() {
     createNoteImgs(notes);
 
     playButton = new Button(playImg, 484, 864);
+    randomButton = new Button(randomImg, 840, 864);
+    helpButton = new Button(helpImg, 1206, 864);
     saveButton = new Button(saveImg, 1572, 864);
 }
 
@@ -76,6 +82,8 @@ function draw() {
   // image(leggoImg, 63, 857);
 
   playButton.display();
+  randomButton.display();
+  helpButton.display();
   saveButton.display();
 
   noteImgs.forEach( (note) => { note.display(); })
@@ -90,6 +98,20 @@ function mousePressed() {
   if ( playButton.inBounds(mouseX, mouseY) ) {
     updatePart();
     play();
+    return;
+  }
+
+  if ( randomButton.inBounds(mouseX, mouseY) ) {
+    let notes = randomNotes();
+    createPart(notes);
+    createNoteImgs(notes);
+    return;
+  }
+
+  if ( helpButton.inBounds(mouseX, mouseY) ) {
+    let url = encodeURL();
+    modalTinyNoFooter.setContent(`<h2>Help!</h2>`);
+    modalTinyNoFooter.open();
     return;
   }
 
