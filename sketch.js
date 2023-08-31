@@ -23,19 +23,32 @@ function setup() {
     sequenceHeight = 869 - 229 - 16;
 
     partDuration = 2 * 4 * 4;
-    let notes = randomNotes();
-    createPart(notes);
 
-    noteImgs = [];
-    notes.forEach(function (note) {
-      let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
-      let top = (1 - note.velocity) * sequenceHeight + 8;
-      let img = [dingImg, leggoImg, toasterImg, waffleImg][note.voiceIndex];
-      let newNote = new Note(img,left,top,note);
-      noteImgs.push(newNote)
-    });
+    url = new URL(window.location.href);
+    shouldLoadURL = url.searchParams.has('v0')
+
+    let notes;
+    if (shouldLoadURL) {
+      notes = decodeURL();
+    } else {
+      notes = randomNotes();
+    }
+
+    createPart(notes);
+    createNoteImgs(notes);
 
     playButton = new Button(playImg, 484, 864);
+}
+
+function createNoteImgs(notes) {
+  noteImgs = []
+  notes.forEach(function (note) {
+    let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
+    let top = (1 - note.velocity) * sequenceHeight + 8;
+    let img = [dingImg, leggoImg, toasterImg, waffleImg][note.voiceIndex];
+    let newNote = new Note(img,left,top,note);
+    noteImgs.push(newNote)
+  });
 }
 
 
@@ -76,7 +89,6 @@ function mousePressed() {
 
   for (let i = noteImgs.length - 1; i >= 0; i--) {
     if ( noteImgs[i].inHover(mouseX, mouseY) ) {
-      // print("hover pressed", i, noteImgs[i], noteImgs[i].noteValue); 
       noteImgs[i].noteValue.nextNoteIndex();
       break;
     }
@@ -198,4 +210,33 @@ class Button {
 
 function between(x, min, max) {
   return x >= min && x <= max;
+}
+
+function decodeURL() {
+  urlParams = new URLSearchParams(window.location.search);
+  let notes = [];
+  for (var i = 0; i < 4; i++) {
+    let v = parseInt(urlParams.get("v" + i))
+    let n = parseInt(urlParams.get("n" + i))
+    let a = parseFloat(urlParams.get("a" + i))
+    let t = parseFloat(urlParams.get("t" + i))
+    
+    let note = new NoteValue(t, a, v, n)
+    notes.push(note);
+  }
+
+  return notes;
+}
+
+function encodeURL() {
+  let params = {};
+  noteImgs.forEach( (noteImg, index) => {
+    let noteValue = noteImg.noteValue;
+    params['v' + index] = noteValue.voiceIndex;
+    params['n' + index] = noteValue.noteIndex;
+    params['a' + index] = noteValue.velocity.toFixed(2);;
+    params['t' + index] = noteValue.time.toFixed(2);;
+  })
+  const searchParrams = new URLSearchParams(params);
+  const new_url = new URL(`${document.location.origin}${document.location.pathname}?${searchParrams.toString()}`)
 }

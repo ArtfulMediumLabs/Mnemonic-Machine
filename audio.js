@@ -5,6 +5,12 @@
 
 //const synth = new Tone.Synth().toDestination();
 
+const noteRanges = {
+    0 : ['C1', 'C#1'],
+    1 : ['C2', 'C#2'],
+    2 : ['C3', 'C#4'],
+    3 : ['C4', 'C#4'],
+}
 
 const sampler = new Tone.Sampler({
 	urls: {
@@ -45,9 +51,8 @@ function randomNote(voiceIndex) {
     let time = Math.random() * totalDuration;
     let velocity = Math.random() * 0.9 + 0.1;
     
-    let noteRange = ['C', 'C#'].map( (x) => x + (voiceIndex + 1) );
-    let noteIndex = Math.floor(Math.random() * noteRange.length);
-    let note = new NoteValue(time, velocity, voiceIndex, noteRange, noteIndex);
+    let noteIndex = Math.floor(Math.random() * noteRanges[voiceIndex].length);
+    let note = new NoteValue(time, velocity, voiceIndex, noteIndex);
     // return {'time': time, 'note': notes[noteIndex], 'voiceIndex': voiceIndex, 'velocity': velocity }
     return note;
 }
@@ -65,22 +70,20 @@ function randomTimeinMeasures() {
 }
 
 class NoteValue {
-    constructor(time, velocity, voiceIndex, noteRange, noteIndex) {
+    constructor(time, velocity, voiceIndex, noteIndex) {
         this.time = time;
         this.velocity = velocity;
         this.voiceIndex = voiceIndex;
         this.noteIndex = noteIndex;
-        this.noteRange = noteRange;
     }
 
     get note() {
-        return this.noteRange[this.noteIndex];
+        return noteRanges[this.voiceIndex][this.noteIndex];
     }
 
     nextNoteIndex() {
         this.noteIndex += 1;
-        this.noteIndex %= this.noteRange.length;
-        // print(this.noteIndex, this.note);
+        this.noteIndex %= noteRanges[this.voiceIndex].length;
         sampler.triggerAttackRelease(this.note, 2.0, undefined, this.velocity);
     }
 
