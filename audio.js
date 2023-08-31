@@ -48,7 +48,7 @@ function randomNotes() {
   }
   
 function randomNote(voiceIndex) {
-    let time = Math.random() * totalDuration;
+    let time = Math.random() * totalDuration * 0.9;
     let velocity = Math.random() * 0.9 + 0.1;
     
     let noteIndex = Math.floor(Math.random() * noteRanges[voiceIndex].length);
