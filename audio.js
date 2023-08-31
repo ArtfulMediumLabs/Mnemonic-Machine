@@ -5,24 +5,63 @@
 
 //const synth = new Tone.Synth().toDestination();
 
-const noteRanges = {
-    0 : ['C1', 'C#1'],
-    1 : ['C2', 'C#2'],
-    2 : ['C3', 'C#4'],
-    3 : ['C4', 'C#4'],
+// let noteRanges = {
+//     0 : ['C1', 'C#1'],
+//     1 : ['C2', 'C#2'],
+//     2 : ['C3', 'C#4'],
+//     3 : ['C4', 'C#4'],
+// }
+
+const range = (start, stop, step=1) =>
+  Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
+
+
+let sampleUrls = {}
+let noteRanges = {}
+
+let midiNumber = 0;
+let midiStart = midiNumber;
+
+// bss_eggo_dingthing_ding_1.wav - 17
+for (var i = 1; i <= 17; i++) {
+    let key = Tone.Frequency(midiNumber, "midi").toNote()
+    console.log(key);
+    sampleUrls[key] = `bss_eggo_dingthing_ding_${i}.wav`;
+    midiNumber++; 
 }
+noteRanges[0] = range(midiStart,midiNumber - 1);
+
+midiStart = midiNumber;
+// bss_eggo_dingthing_leggo_1.wav - 11
+for (var i = 1; i <= 11; i++) {
+    let key = Tone.Frequency(midiNumber, "midi").toNote()
+    sampleUrls[key] = `bss_eggo_dingthing_leggo_${i}.wav`;
+    midiNumber++; 
+}
+noteRanges[1] = range(midiStart,midiNumber - 1);
+
+midiStart = midiNumber;
+// bss_eggo_dingthing_toaster_1.wav - 11
+for (var i = 1; i <= 11; i++) {
+    let key = Tone.Frequency(midiNumber, "midi").toNote()
+    sampleUrls[key] = `bss_eggo_dingthing_toaster_${i}.wav`;
+    midiNumber++; 
+}
+noteRanges[2] = range(midiStart,midiNumber - 1);
+
+midiStart = midiNumber;
+// bss_eggo_dingthing_waffle_1.wav - 6
+for (var i = 1; i <= 6; i++) {
+    let key = Tone.Frequency(midiNumber, "midi").toNote()
+    sampleUrls[key] = `bss_eggo_dingthing_waffle_${i}.wav`;
+    midiNumber++; 
+}
+noteRanges[3] = range(midiStart,midiNumber - 1);
+
+console.log(sampleUrls);
 
 const sampler = new Tone.Sampler({
-	urls: {
-		"C1": "bss_eggo_ding_1.wav",
-        "C#1": "bss_eggo_ding_2.wav",
-        "C2": "bss_eggo_leggo_1.wav",
-        "C#2": "bss_eggo_leggo_2.wav",
-        "C3": "bss_eggo_toaster_1.wav",
-        "C#3": "bss_eggo_toaster_2.wav",
-        "C4": "bss_eggo_waffle_1.wav",
-        "C#4": "bss_eggo_waffle_2.wav"
-	},
+	urls: sampleUrls,
 	release: 1,
 	baseUrl: "./audio/",
 }).toDestination();
@@ -75,13 +114,15 @@ class NoteValue {
     }
 
     get note() {
-        return noteRanges[this.voiceIndex][this.noteIndex];
+        let midiNumber = parseInt(noteRanges[this.voiceIndex][this.noteIndex]);
+        return Tone.Frequency(midiNumber, "midi").toNote()
     }
 
     nextNoteIndex() {
         this.noteIndex += 1;
         this.noteIndex %= noteRanges[this.voiceIndex].length;
-        sampler.triggerAttackRelease(this.note, 2.0, undefined, this.velocity);
+        console.log(this.note)
+        sampler.triggerAttackRelease(this.note, 4.0, undefined, this.velocity);
     }
 
 }
