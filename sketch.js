@@ -71,8 +71,7 @@ function mousePressed() {
   }
 
   for (let i = noteImgs.length - 1; i >= 0; i--) {
-    if (mouseX >= noteImgs[i].x && mouseX <= noteImgs[i].x + noteImgs[i].img.width &&
-      mouseY >= noteImgs[i].y && mouseY <= noteImgs[i].y + noteImgs[i].img.height) {
+    if ( noteImgs[i].inBounds(mouseX, mouseY) ) {
       let relativePos = createVector(mouseX - noteImgs[i].x, mouseY - noteImgs[i].y);
       draggingIx = i;
       draggingOffset = relativePos;
@@ -123,6 +122,18 @@ class Note {
     // let top = (1 - note.velocity) * sequenceHeight + 8;
     this.noteValue.velocity = (1 - (this.y - 8) / sequenceHeight);
   }
+
+  maxX() {
+    return this.x + this.img.width;
+  }
+
+  maxY() {
+    return this.y + this.img.height;
+  }
+
+  inBounds(x, y) {
+    return ( between(x, this.x, this.maxX()) && between(y, this.y, this.maxY()) );
+  }
 }
 
 class Button {
@@ -146,7 +157,7 @@ class Button {
 
   display() {
     image(this.img, this.x, this.y);
-  } 
+  }
 }
 
 function between(x, min, max) {
