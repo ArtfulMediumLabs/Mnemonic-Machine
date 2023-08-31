@@ -4,6 +4,8 @@ let noteImgs = [];
 let playButton;
 
 function preload() {
+  sideImg = loadImage('img/side_graphic.png');
+  
   dingImg = loadImage('img/ding.png');
   toasterImg = loadImage('img/toaster.png');
   waffleImg = loadImage('img/waffle.png');
@@ -15,7 +17,7 @@ function preload() {
 function setup() {
     createCanvas(1920, 1080);
     
-    menuWidth = 308;
+    menuWidth = 400;
     sequenceWidth = 1920 - menuWidth - 16;
 
     sequenceHeight = 869 - 229 - 16;
@@ -33,12 +35,14 @@ function setup() {
       noteImgs.push(newNote)
     });
 
-    playButton = new Button(playImg, 344, 869);
+    playButton = new Button(playImg, 484, 864);
 }
 
 
 function draw() {
   background('#FFD126');
+
+  image(sideImg, 0, 0);
 
   let menuColor = color('#FFFFFF');
   menuColor.setAlpha(76);
@@ -46,12 +50,12 @@ function draw() {
 
   noStroke();
   
-  rect(0,0,308,1080);
+  // rect(0,0,308,1080);
 
-  image(dingImg, 73, 44);
-  image(toasterImg, 74, 305);
-  image(waffleImg, 71, 570);
-  image(leggoImg, 63, 857);
+  // image(dingImg, 73, 44);
+  // image(toasterImg, 74, 305);
+  // image(waffleImg, 71, 570);
+  // image(leggoImg, 63, 857);
 
   playButton.display();
 
