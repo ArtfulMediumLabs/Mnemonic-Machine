@@ -71,6 +71,10 @@ function mousePressed() {
   }
 
   for (let i = noteImgs.length - 1; i >= 0; i--) {
+    if ( noteImgs[i].inHover(mouseX, mouseY) ) {
+      print("hover clicked", i);
+      break;
+    }
     if ( noteImgs[i].inBounds(mouseX, mouseY) ) {
       let relativePos = createVector(mouseX - noteImgs[i].x, mouseY - noteImgs[i].y);
       draggingIx = i;
@@ -89,6 +93,22 @@ function play() {
   Tone.start();
   Tone.Transport.toggle();
   return false;
+}
+
+function mouseMoved() {
+  if (draggingIx >= 0) {
+    noteImgs.forEach((noteImg, index) => noteImg.hover = false);
+    return;
+  }
+
+  let hoverIndex = -1;
+  for (let i = noteImgs.length - 1; i >= 0; i--) {
+    if ( noteImgs[i].inBounds(mouseX, mouseY) ) {
+      hoverIndex = i;
+      break;
+    }
+  }
+  noteImgs.forEach((element, index, arr) => arr[index].hover = index == hoverIndex);
 }
 
 function mouseReleased() {
@@ -110,10 +130,14 @@ class Note {
     this.y = y;
     this.img = img;
     this.noteValue = noteValue;
+    this.hover = false;
   }
 
   display() {
     image(this.img, this.x, this.y);
+    if (this.hover) {
+      rect(this.x,this.y,40,40);
+    }
   }
 
   updateValue() {
@@ -129,6 +153,10 @@ class Note {
 
   maxY() {
     return this.y + this.img.height;
+  }
+
+  inHover(x, y) {
+    return ( between(x, this.x, this.x + 40) && between(y, this.y, this.y + 40) );
   }
 
   inBounds(x, y) {
