@@ -110,7 +110,7 @@ function mousePressed() {
 
   if ( helpButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    modalTinyNoFooter.setContent(`img/controls.png`);
+    modalTinyNoFooter.setContent(img/controls.png);
     modalTinyNoFooter.open();
     return;
   }
