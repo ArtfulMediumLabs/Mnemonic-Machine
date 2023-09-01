@@ -9,3 +9,8 @@ canvas {
     margin: 2.5% auto;
     display: block;
 }
+
+#help {
+    width: 100%;
+    height: auto;
+}
