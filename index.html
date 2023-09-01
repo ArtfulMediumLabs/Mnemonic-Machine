@@ -22,7 +22,7 @@ var modalTinyNoFooter = new tingle.modal({
   cssClass: ['class1', 'class2']
 });
 const copyContent = async () => {
-  let link = document.getElementById('link').innerHTML;
+  let link = document.getElementById('link').innerText;
   try {
     await navigator.clipboard.writeText(link);
   } catch (err) {
