@@ -120,8 +120,9 @@ function mousePressed() {
     modalTinyNoFooter.setContent(`
     <center>
       <h2>Copy this link to share your creation:</h2>
-      <p>${url}<p>`);
-    </center>
+      <p>${url}<p>
+      </center>`);
+    
     modalTinyNoFooter.open();
     return;
   }
