@@ -110,14 +110,18 @@ function mousePressed() {
 
   if ( helpButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    modalTinyNoFooter.setContent(`<h2>Help!</h2>`);
+    modalTinyNoFooter.setContent(`<img src="img/controls.png">`);
     modalTinyNoFooter.open();
     return;
   }
 
   if ( saveButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    modalTinyNoFooter.setContent(`<h2>Copy this link to share your creation:</h2><p>${url}<p>`);
+    modalTinyNoFooter.setContent(`
+    <center>
+      <h2>Copy this link to share your creation:</h2>
+      <p>${url}<p>`);
+    </center>
     modalTinyNoFooter.open();
     return;
   }
