@@ -117,7 +117,9 @@ function mousePressed() {
 
   if ( saveButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    modalTinyNoFooter.setContent(`<h2>Copy this link to share your creation:</h2><p>${url}</p>`);
+    document.getElementById('link').innerHTML = url;
+    modalTinyNoFooter.setContent(document.querySelector('.modal-content').innerHTML);
+    // modalTinyNoFooter.setContent(`<h2>Copy this link to share your creation:</h2><p>${url}</p>`);
     modalTinyNoFooter.open();
     return;
   }

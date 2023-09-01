@@ -12,23 +12,23 @@
   <body>
     <main>
     </main>
+  <div class="modal-content">
+    <div id="copy">COPY THIS LINK TO SHARE YOUR CREATION</div>
+    <div id="link"></div>
+    <button class="btn" onclick="copyContent()">COPY</button>
+  </div>
   <script>
 var modalTinyNoFooter = new tingle.modal({
-  onClose: function () {
-      console.log('close');
-  },
-  onOpen: function () {
-      console.log('open');
-  },
-  beforeOpen: function () {
-      console.log('before open');
-  },
-  beforeClose: function () {
-      console.log('before close');
-      return true;
-  },
   cssClass: ['class1', 'class2']
 });
+const copyContent = async () => {
+  let link = document.getElementById('link').innerHTML;
+  try {
+    await navigator.clipboard.writeText(link);
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+  }
+}
   </script>
   </body>
 </html>

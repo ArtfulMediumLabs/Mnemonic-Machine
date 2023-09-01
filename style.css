@@ -10,6 +10,45 @@ canvas {
     display: block;
 }
 
+.modal-content {
+    background-color: #FFD126;
+    display: none;
+    text-align: center;
+}
+
+#copy {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#link {
+    border-radius: 20px;
+    border: 2px solid #1C274C;
+    padding: 20px; 
+    margin: auto;
+    width: 90%;
+    height: auto; 
+    overflow: hidden;
+    white-space:nowrap;
+}
+
+
+.btn {
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 20px auto;
+    cursor: pointer;
+    background-color: #1C274C;
+    border-radius: 20px;
+    font-size: 24px;
+}
+
 #help {
     width: 100%;
     height: auto;
