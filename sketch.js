@@ -117,7 +117,7 @@ function mousePressed() {
 
   if ( saveButton.inBounds(mouseX, mouseY) ) {
     let url = encodeURL();
-    modalTinyNoFooter.setContent(`<h2>Your song is saved at link:</h2><p>${url}<p>`);
+    modalTinyNoFooter.setContent(`<h2>Copy this link to share your creation:</h2><p>${url}</p>`);
     modalTinyNoFooter.open();
     return;
   }
