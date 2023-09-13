@@ -76,8 +76,9 @@ function createPart(values) {
     part.start(0);
 }
 
-function randomNotes() {
-    return Array.from([0,1,2,3], (i) => randomNote(i));
+function randomNotes(length) {
+    // return Array.from([0,1,2,3], (i) => randomNote(i));
+    return Array.from({length: length}, (_, i) => randomNote(i));
   }
   
 function randomNote(voiceIndex) {

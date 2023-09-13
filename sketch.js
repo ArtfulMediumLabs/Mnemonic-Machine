@@ -9,10 +9,8 @@ let saveButton;
 function preload() {
   sideImg = loadImage('img/side_graphic.png');
   
-  dingImg = loadImage('img/ding.png');
-  toasterImg = loadImage('img/toaster.png');
-  waffleImg = loadImage('img/waffle.png');
-  leggoImg = loadImage('img/leggo.png');
+  //config.images.forEach( (image) => { loadImage('img/' + image) } );
+  imgRefs = config.images.map( (imageName) => { return loadImage('img/' + imageName) } );
 
   changeImg = loadImage('img/change.png');
 
@@ -39,11 +37,11 @@ function setup() {
     if (shouldLoadURL) {
       notes = decodeURL();
     } else {
-      notes = randomNotes();
+      notes = randomNotes(config.voiceTotal);
     }
 
-    createPart(notes);
     createNoteImgs(notes);
+    createPart(notes);
 
     playButton = new Button(playImg, 484, 864);
     randomButton = new Button(randomImg, 840, 864);
@@ -56,7 +54,7 @@ function createNoteImgs(notes) {
   notes.forEach(function (note) {
     let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
     let top = (1 - note.velocity) * sequenceHeight + 8;
-    let img = [dingImg, leggoImg, toasterImg, waffleImg][note.voiceIndex];
+    let img = imgRefs[note.voiceIndex];
     let newNote = new Note(img,left,top,note);
     noteImgs.push(newNote)
   });
@@ -252,7 +250,7 @@ function between(x, min, max) {
 function decodeURL() {
   urlParams = new URLSearchParams(window.location.search);
   let notes = [];
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < config.voiceTotal; i++) {
     let v = parseInt(urlParams.get("v" + i))
     let n = parseInt(urlParams.get("n" + i))
     let a = parseFloat(urlParams.get("a" + i))
