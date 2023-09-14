@@ -55,7 +55,10 @@ function randomNotes(length = config.voiceCount) {
   }
   
 function randomNote(voiceIndex) {
-    let time = Math.random() * config.duration * 0.9;
+    let min = config.samples[voiceIndex].min ?? 0.0;
+    let max = config.samples[voiceIndex].max ?? (config.duration * 0.9);
+
+    let time = min + Math.random() * (max - min);
     let velocity = Math.random() * 0.9 + 0.1;
     
     let noteIndex = Math.floor(Math.random() * noteRanges[voiceIndex].length);
