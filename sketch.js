@@ -100,7 +100,7 @@ function mousePressed() {
   }
 
   if ( randomButton.inBounds(mouseX, mouseY) ) {
-    let notes = randomNotes();
+    let notes = randomNotes(config.voiceTotal);
     createPart(notes);
     createNoteImgs(notes);
     return;
@@ -271,7 +271,7 @@ function encodeURL() {
     params['n' + index] = noteValue.noteIndex;
     params['a' + index] = noteValue.velocity.toFixed(2);;
     params['t' + index] = noteValue.time.toFixed(2);;
-  })
+  });
   const searchParrams = new URLSearchParams(params);
   const new_url = new URL(`${document.location.origin}${document.location.pathname}?${searchParrams.toString()}`)
   return new_url;

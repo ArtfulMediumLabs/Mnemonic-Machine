@@ -22,40 +22,15 @@ let noteRanges = {}
 let midiNumber = 0;
 let midiStart = midiNumber;
 
-// bss_eggo_dingthing_ding_1.wav - 17
-for (var i = 1; i <= 17; i++) {
-    let key = Tone.Frequency(midiNumber, "midi").toNote()
-    sampleUrls[key] = `bss_eggo_dingthing_ding_${i}.wav`;
-    midiNumber++; 
-}
-noteRanges[0] = range(midiStart,midiNumber - 1);
-
-midiStart = midiNumber;
-// bss_eggo_dingthing_leggo_1.wav - 11
-for (var i = 1; i <= 11; i++) {
-    let key = Tone.Frequency(midiNumber, "midi").toNote()
-    sampleUrls[key] = `bss_eggo_dingthing_leggo_${i}.wav`;
-    midiNumber++; 
-}
-noteRanges[1] = range(midiStart,midiNumber - 1);
-
-midiStart = midiNumber;
-// bss_eggo_dingthing_toaster_1.wav - 11
-for (var i = 1; i <= 11; i++) {
-    let key = Tone.Frequency(midiNumber, "midi").toNote()
-    sampleUrls[key] = `bss_eggo_dingthing_toaster_${i}.wav`;
-    midiNumber++; 
-}
-noteRanges[2] = range(midiStart,midiNumber - 1);
-
-midiStart = midiNumber;
-// bss_eggo_dingthing_waffle_1.wav - 6
-for (var i = 1; i <= 6; i++) {
-    let key = Tone.Frequency(midiNumber, "midi").toNote()
-    sampleUrls[key] = `bss_eggo_dingthing_waffle_${i}.wav`;
-    midiNumber++; 
-}
-noteRanges[3] = range(midiStart,midiNumber - 1);
+config.samples.forEach( (sample, index) => {
+    midiStart = midiNumber;
+    for (var i = 1; i <= sample.count; i++) {
+        let key = Tone.Frequency(midiNumber, "midi").toNote()
+        sampleUrls[key] = `${sample.file}${i}.wav`;
+        midiNumber++; 
+    }
+    noteRanges[index] = range(midiStart, midiNumber - 1);
+});
 
 const sampler = new Tone.Sampler({
 	urls: sampleUrls,
