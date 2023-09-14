@@ -15,8 +15,7 @@ function preload() {
 
   sideImg = loadImage('img/side_graphic.png');
   
-  //config.images.forEach( (image) => { loadImage('img/' + image) } );
-  imgRefs = config.images.map( (imageName) => { return loadImage('img/' + imageName) } );
+  imgRefs = config.voices.map( (voice) => { return loadImage('img/' + voice.image) } );
 
   changeImg = loadImage('img/change.png');
 

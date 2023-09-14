@@ -22,11 +22,11 @@ let noteRanges = {}
 let midiNumber = 0;
 let midiStart = midiNumber;
 
-config.samples.forEach( (sample, index) => {
+config.voices.forEach( (voice, index) => {
     midiStart = midiNumber;
-    for (var i = 1; i <= sample.count; i++) {
+    for (var i = 1; i <= voice.count; i++) {
         let key = Tone.Frequency(midiNumber, "midi").toNote()
-        sampleUrls[key] = `${sample.file}${i}.wav`;
+        sampleUrls[key] = `${voice.file}${i}.wav`;
         midiNumber++; 
     }
     noteRanges[index] = range(midiStart, midiNumber - 1);
@@ -55,8 +55,9 @@ function randomNotes(length = config.voiceCount) {
   }
   
 function randomNote(voiceIndex) {
-    let min = config.samples[voiceIndex].min ?? 0.0;
-    let max = config.samples[voiceIndex].max ?? (config.duration * 0.9);
+    // console.log('voice', voiceIndex, voices[voiceIndex]);
+    let min = config.voices[voiceIndex].min ?? 0.0;
+    let max = config.voices[voiceIndex].max ?? (config.duration * 0.9);
 
     let time = min + Math.random() * (max - min);
     let velocity = Math.random() * 0.9 + 0.1;
