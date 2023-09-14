@@ -51,7 +51,7 @@ function createPart(values) {
     part.start(0);
 }
 
-function randomNotes(length) {
+function randomNotes(length = config.voiceCount) {
     // return Array.from([0,1,2,3], (i) => randomNote(i));
     return Array.from({length: length}, (_, i) => randomNote(i));
   }

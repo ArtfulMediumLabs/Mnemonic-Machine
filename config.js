@@ -8,7 +8,7 @@ config.samples = [
     {file: 'bss_eggo_dingthing_leggo_', count:11}
 ];
 
-config.voiceTotal = config.images.length;
+config.voiceCount = config.images.length;
 
 // Order of precedence: image, color, default gray (if undefined)
 config.backgroundColor = '#FFD126';

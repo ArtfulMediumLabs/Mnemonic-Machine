@@ -43,7 +43,7 @@ function setup() {
     if (shouldLoadURL) {
       notes = decodeURL();
     } else {
-      notes = randomNotes(config.voiceTotal);
+      notes = randomNotes();
     }
 
     createNoteImgs(notes);
@@ -106,7 +106,7 @@ function mousePressed() {
   }
 
   if ( randomButton.inBounds(mouseX, mouseY) ) {
-    let notes = randomNotes(config.voiceTotal);
+    let notes = randomNotes();
     createPart(notes);
     createNoteImgs(notes);
     return;
@@ -256,7 +256,7 @@ function between(x, min, max) {
 function decodeURL() {
   urlParams = new URLSearchParams(window.location.search);
   let notes = [];
-  for (var i = 0; i < config.voiceTotal; i++) {
+  for (var i = 0; i < config.voiceCount; i++) {
     let v = parseInt(urlParams.get("v" + i))
     let n = parseInt(urlParams.get("n" + i))
     let a = parseFloat(urlParams.get("a" + i))
