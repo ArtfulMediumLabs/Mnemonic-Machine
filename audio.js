@@ -38,8 +38,6 @@ const sampler = new Tone.Sampler({
 	baseUrl: "./audio/",
 }).toDestination();
 
-const totalDuration = 4.0;
-
 function createPart(values) {
     if (typeof part !== "undefined") { 
         part.dispose()
@@ -57,7 +55,7 @@ function randomNotes(length = config.voiceCount) {
   }
   
 function randomNote(voiceIndex) {
-    let time = Math.random() * totalDuration * 0.9;
+    let time = Math.random() * config.duration * 0.9;
     let velocity = Math.random() * 0.9 + 0.1;
     
     let noteIndex = Math.floor(Math.random() * noteRanges[voiceIndex].length);

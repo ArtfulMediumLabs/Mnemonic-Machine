@@ -1,5 +1,7 @@
 var config = {}
 
+config.duration = 4.0;
+
 config.images = ['ding.png', 'toaster.png', 'waffle.png', 'leggo.png'];
 config.samples = [
     {file: 'bss_eggo_dingthing_ding_', count:17}, 

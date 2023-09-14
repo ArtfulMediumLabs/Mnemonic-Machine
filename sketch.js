@@ -58,7 +58,7 @@ function setup() {
 function createNoteImgs(notes) {
   noteImgs = []
   notes.forEach(function (note) {
-    let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
+    let left = sequenceWidth * note.time / config.duration + menuWidth + 8;
     let top = (1 - note.velocity) * sequenceHeight + 8;
     let img = imgRefs[note.voiceIndex];
     let newNote = new Note(img,left,top,note);
@@ -93,7 +93,7 @@ function draw() {
   noteImgs.forEach( (note) => { note.display(); })
 
   fill('red')
-  let barLength = sequenceWidth * (Tone.Transport.seconds / totalDuration);
+  let barLength = sequenceWidth * (Tone.Transport.seconds / config.duration);
   rect(menuWidth + 8, 1080-20, barLength, 20);
 }
 
@@ -203,7 +203,7 @@ class Note {
 
   updateValue() {
     // let left = sequenceWidth * note.time / totalDuration + menuWidth + 8;
-    this.noteValue.time = ( this.x - (menuWidth + 8) ) / sequenceWidth * totalDuration;
+    this.noteValue.time = ( this.x - (menuWidth + 8) ) / sequenceWidth * config.duration;
     // let top = (1 - note.velocity) * sequenceHeight + 8;
     this.noteValue.velocity = (1 - (this.y - 8) / sequenceHeight);
   }
