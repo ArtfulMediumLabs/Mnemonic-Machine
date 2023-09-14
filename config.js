@@ -9,3 +9,7 @@ config.samples = [
 ];
 
 config.voiceTotal = config.images.length;
+
+// Order of precedence: image, color, default gray (if undefined)
+config.backgroundColor = '#FFD126';
+config.backgroundImage = 'lukas-blazek-EWDvHNNfUmQ-unsplash.jpg';

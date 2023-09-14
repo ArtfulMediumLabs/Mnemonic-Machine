@@ -6,7 +6,13 @@ let randomButton;
 let helpButton;
 let saveButton;
 
+let backgroundImg;
+
 function preload() {
+  if (typeof config.backgroundImage !== "undefined") { 
+    backgroundImg = loadImage('img/' + config.backgroundImage)
+  }
+
   sideImg = loadImage('img/side_graphic.png');
   
   //config.images.forEach( (image) => { loadImage('img/' + image) } );
@@ -62,7 +68,7 @@ function createNoteImgs(notes) {
 
 
 function draw() {
-  background('#FFD126');
+  background(backgroundImg ?? config.backgroundColor ?? 'gray');
 
   image(sideImg, 0, 0);
 
