@@ -1,7 +1,9 @@
 var config = {}
 
+// total seconds
 config.duration = 4.0;
 
+// seconds as min/max bounds, min default 0, max default config.duration
 config.voices = [
     {image: 'toaster.png', file: 'bss_eggo_dingthing_toaster_', count:11, max: 1.5},
     {image: 'ding.png', file: 'bss_eggo_dingthing_ding_', count:17, min: 1.5, max: 3.0},  
