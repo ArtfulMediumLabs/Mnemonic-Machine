@@ -197,7 +197,17 @@ class Note {
     image(this.img, this.x, this.y);
     if (this.hover) {
       image(changeImg,this.x,this.y);
+      //displayTextNote.bind(this)()
     }
+  }
+
+  displayTextNote() {
+    fill('white');
+    textSize(32);
+    let noteIndex = 'Chunk!';
+    let width = textWidth(noteIndex);
+    let height = 32;
+    text(noteIndex, this.x, this.y + this.img.height);
   }
 
   updateValue() {
