@@ -41,6 +41,11 @@ const sampler = new Tone.Sampler({
 	baseUrl: "./audio/",
 }).toDestination();
 
+function progress() {
+    // return Tone.Transport.seconds / config.duration;
+    return Tone.Transport.seconds / (config.duration / playbackRate) ;
+}
+
 function createPart(values) {
     if (typeof part !== "undefined") { 
         part.dispose()
@@ -51,6 +56,14 @@ function createPart(values) {
     
     part.playbackRate = playbackRate;
     part.start(0);
+}
+
+function playPart() {
+    Tone.start();
+    Tone.Transport.seconds = 0;
+    Tone.Transport.start();
+    let duration = config.duration / playbackRate;
+    Tone.Transport.stop("+" + duration);
 }
 
 function randomNotes(length = config.voiceCount) {

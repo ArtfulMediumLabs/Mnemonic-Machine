@@ -95,9 +95,11 @@ function draw() {
   noteImgs.forEach( (note) => { note.display(); })
 
   fill('red')
-  let barLength = sequenceWidth * (Tone.Transport.seconds / config.duration);
+  let barLength = sequenceWidth * progress();
   rect(menuWidth + 8, 1080-20, barLength, 20);
 }
+
+
 
 
 function mousePressed() {
@@ -153,12 +155,8 @@ function play() {
   if (playButton.selected) {
     return;
   }
-
-  Tone.start();
-  Tone.Transport.seconds = 0;
-  Tone.Transport.start();
-  Tone.Transport.stop("+4.0");
-  return false;
+  
+  playPart();
 }
 
 function mouseMoved() {
