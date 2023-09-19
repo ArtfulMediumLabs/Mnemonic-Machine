@@ -20,6 +20,7 @@ function preload() {
   changeImg = loadImage('img/change.png');
 
   playImg = loadImage('img/play.png');
+  stopImg = loadImage('img/stop.png');
   randomImg = loadImage('img/random.png');
   helpImg = loadImage('img/help.png');
   saveImg = loadImage('img/save.png');
@@ -48,7 +49,7 @@ function setup() {
     createNoteImgs(notes);
     createPart(notes);
 
-    playButton = new Button(playImg, 484, 864);
+    playButton = new Button(playImg, 484, 864, stopImg);
     randomButton = new Button(randomImg, 840, 864);
     helpButton = new Button(helpImg, 1206, 864);
     saveButton = new Button(saveImg, 1572, 864);
@@ -84,7 +85,9 @@ function draw() {
   // image(waffleImg, 71, 570);
   // image(leggoImg, 63, 857);
 
+  playButton.selected = Tone.Transport.seconds > 0;
   playButton.display();
+
   randomButton.display();
   helpButton.display();
   saveButton.display();
@@ -147,6 +150,10 @@ function updatePart() {
 }
 
 function play() {
+  if (playButton.selected) {
+    return;
+  }
+
   Tone.start();
   Tone.Transport.seconds = 0;
   Tone.Transport.start();
@@ -235,10 +242,12 @@ class Note {
 }
 
 class Button {
-  constructor(img, x, y) {
+  constructor(img, x, y, selectedImg) {
     this.x = x;
     this.y = y;
     this.img = img;
+    this.selectedImg = selectedImg ?? img;
+    this.selected = false;
   }
 
   maxX() {
@@ -254,7 +263,8 @@ class Button {
   }
 
   display() {
-    image(this.img, this.x, this.y);
+    let stateImage = this.selected ? this.selectedImg : this.img;
+    image(stateImage, this.x, this.y);
   }
 }
 

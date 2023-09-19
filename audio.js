@@ -22,6 +22,9 @@ let noteRanges = {}
 let midiNumber = 0;
 let midiStart = midiNumber;
 
+let part;
+let playbackRate = 1;
+
 config.voices.forEach( (voice, index) => {
     midiStart = midiNumber;
     for (var i = 1; i <= voice.count; i++) {
@@ -46,6 +49,7 @@ function createPart(values) {
         sampler.triggerAttackRelease(value.note, 4.0, time, value.velocity)
     }), values);
     
+    part.playbackRate = playbackRate;
     part.start(0);
 }
 
