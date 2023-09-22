@@ -62,6 +62,7 @@ function createNoteImgs(notes) {
     let top = (1 - note.velocity) * sequenceHeight + 8;
     let img = imgRefs[note.voiceIndex];
     let newNote = new Note(img,left,top,note);
+    note.noteImg = newNote;
     noteImgs.push(newNote)
   });
 }
@@ -196,6 +197,10 @@ class Note {
     this.img = img;
     this.noteValue = noteValue;
     this.hover = false;
+    this.bounceTween = p5.tween.manager.addTween(this)
+      .addMotion('y', y + 20, 50, 'easeInQuad')
+      .addMotion('y', y - 10, 50, 'easeInQuad')
+      .addMotion('y', y, 50, 'easeOutQuad');
   }
 
   display() {

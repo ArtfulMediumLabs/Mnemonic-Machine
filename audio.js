@@ -52,6 +52,7 @@ function createPart(values) {
     }
     part = new Tone.Part(((time, value) => {
         sampler.triggerAttackRelease(value.note, 4.0, time, value.velocity)
+        value.noteImg.bounceTween.startTween();
     }), values);
     
     part.playbackRate = playbackRate;
@@ -72,7 +73,6 @@ function randomNotes(length = config.voiceCount) {
   }
   
 function randomNote(voiceIndex) {
-    // console.log('voice', voiceIndex, voices[voiceIndex]);
     let min = config.voices[voiceIndex].min ?? 0.0;
     let max = config.voices[voiceIndex].max ?? (config.duration * 0.9);
 
@@ -103,6 +103,7 @@ class NoteValue {
         this.velocity = velocity;
         this.voiceIndex = voiceIndex;
         this.noteIndex = noteIndex;
+        this.noteImg = undefined;
     }
 
     get note() {
