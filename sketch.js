@@ -154,9 +154,11 @@ function updatePart() {
 
 function play() {
   if (playButton.selected) {
+    stop();
     return;
   }
   
+  playbackRate = nextPlaybackRate;
   playPart();
 }
 

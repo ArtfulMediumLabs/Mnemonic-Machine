@@ -24,6 +24,7 @@ let midiStart = midiNumber;
 
 let part;
 let playbackRate = 1;
+let nextPlaybackRate = 1;
 
 config.voices.forEach( (voice, index) => {
     midiStart = midiNumber;
@@ -65,6 +66,11 @@ function playPart() {
     Tone.Transport.start();
     let duration = config.duration / playbackRate;
     Tone.Transport.stop("+" + duration);
+}
+
+function stop() {
+    Tone.Transport.seconds = 0;
+    Tone.Transport.stop();
 }
 
 function randomNotes(length = config.voiceCount) {
