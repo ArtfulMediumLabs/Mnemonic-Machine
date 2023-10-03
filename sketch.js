@@ -17,7 +17,8 @@ function preload() {
   
   imgRefs = config.voices.map( (voice) => { return loadImage('img/' + voice.image) } );
 
-  changeImg = loadImage('img/change.png');
+  prevImg = loadImage('img/previous_sound.png');
+  nextImg = loadImage('img/next_sound.png');
 
   playImg = loadImage('img/play.png');
   stopImg = loadImage('img/stop.png');
@@ -124,7 +125,11 @@ function mousePressed() {
   }
 
   for (let i = noteImgs.length - 1; i >= 0; i--) {
-    if ( noteImgs[i].inHover(mouseX, mouseY) ) {
+    if ( noteImgs[i].inPreviousHover(mouseX, mouseY) ) {
+      noteImgs[i].noteValue.previousNoteIndex();
+      break;
+    }
+    if ( noteImgs[i].inNextHover(mouseX, mouseY) ) {
       noteImgs[i].noteValue.nextNoteIndex();
       break;
     }
@@ -194,7 +199,8 @@ class Note {
   display() {
     image(this.img, this.x, this.y);
     if (this.hover) {
-      image(changeImg,this.x,this.y);
+      image(prevImg, this.x, this.y + this.img.height - prevImg.height);
+      image(nextImg, this.x + this.img.width - prevImg.width, this.y + this.img.height - prevImg.height);
       //displayTextNote.bind(this)()
     }
   }
@@ -231,8 +237,18 @@ class Note {
     return this.y + this.img.height;
   }
 
-  inHover(x, y) {
-    return ( between(x, this.x, this.x + 44) && between(y, this.y, this.y + 44) );
+  inPreviousHover(x, y) {
+    return ( 
+      between(x, this.x, this.x + prevImg.width) && 
+      between(y, this.y + this.img.height - prevImg.height, this.y + this.img.height) 
+    );
+  }
+
+  inNextHover(x, y) {
+    return ( 
+      between(x, this.x + this.img.width - nextImg.width, this.x + this.img.width) && 
+      between(y, this.y + this.img.height - prevImg.height, this.y + this.img.height) 
+    );
   }
 
   inBounds(x, y) {

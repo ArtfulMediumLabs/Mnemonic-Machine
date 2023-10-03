@@ -123,4 +123,10 @@ class NoteValue {
         sampler.triggerAttackRelease(this.note, 4.0, undefined, this.velocity);
     }
 
+    previousNoteIndex() {
+        this.noteIndex += noteRanges[this.voiceIndex].length - 1;
+        this.noteIndex %= noteRanges[this.voiceIndex].length;
+        sampler.triggerAttackRelease(this.note, 4.0, undefined, this.velocity);
+    }
+
 }
