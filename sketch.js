@@ -69,7 +69,6 @@ function createNoteImgs(notes) {
   });
 }
 
-
 function draw() {
   background(backgroundImg ?? config.backgroundColor ?? 'gray');
 
@@ -80,13 +79,6 @@ function draw() {
   fill(menuColor);
 
   noStroke();
-  
-  // rect(0,0,308,1080);
-
-  // image(dingImg, 73, 44);
-  // image(toasterImg, 74, 305);
-  // image(waffleImg, 71, 570);
-  // image(leggoImg, 63, 857);
 
   playButton.selected = Tone.Transport.seconds > 0;
   playButton.display();
@@ -100,9 +92,6 @@ function draw() {
   let progressX = sequenceWidth * progress() - indicatorImg.width / 2;
   image(indicatorImg, menuWidth + 8 + progressX, 0);
 }
-
-
-
 
 function mousePressed() {
   if ( playButton.inBounds(mouseX, mouseY) ) {
