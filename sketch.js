@@ -199,10 +199,6 @@ class Note {
     this.img = img;
     this.noteValue = noteValue;
     this.hover = false;
-    this.bounceTween = p5.tween.manager.addTween(this)
-      .addMotion('y', y + 20, 50, 'easeInQuad')
-      .addMotion('y', y - 10, 50, 'easeInQuad')
-      .addMotion('y', y, 50, 'easeOutQuad');
   }
 
   display() {
@@ -220,6 +216,14 @@ class Note {
     let width = textWidth(noteIndex);
     let height = 32;
     text(noteIndex, this.x, this.y + this.img.height);
+  }
+
+  bounce() {
+    let bounceTween = p5.tween.manager.addTween(this)
+      .addMotion('y', this.y + 20, 50, 'easeInQuad')
+      .addMotion('y', this.y - 10, 50, 'easeInQuad')
+      .addMotion('y', this.y, 50, 'easeOutQuad');
+    bounceTween.startTween();
   }
 
   updateValue() {

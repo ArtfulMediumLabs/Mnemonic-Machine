@@ -53,7 +53,7 @@ function createPart(values) {
     }
     part = new Tone.Part(((time, value) => {
         sampler.triggerAttackRelease(value.note, 4.0, time, value.velocity)
-        value.noteImg.bounceTween.startTween();
+        value.noteImg.bounce();
     }), values);
     
     part.playbackRate = playbackRate;
