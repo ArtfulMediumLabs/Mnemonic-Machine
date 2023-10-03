@@ -24,6 +24,8 @@ function preload() {
   randomImg = loadImage('img/random.png');
   helpImg = loadImage('img/help.png');
   saveImg = loadImage('img/save.png');
+
+  indicatorImg = loadImage('img/play_bar_indicator.png');
 }
 
 function setup() {
@@ -95,9 +97,8 @@ function draw() {
 
   noteImgs.forEach( (note) => { note.display(); })
 
-  fill('red')
-  let barLength = sequenceWidth * progress();
-  rect(menuWidth + 8, 1080-20, barLength, 20);
+  let progressX = sequenceWidth * progress() - indicatorImg.width / 2;
+  image(indicatorImg, menuWidth + 8 + progressX, 0);
 }
 
 
