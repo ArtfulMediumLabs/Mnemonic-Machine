@@ -52,10 +52,12 @@ function setup() {
     createNoteImgs(notes);
     createPart(notes);
 
-    playButton = new Button(playImg, 484, 864, stopImg);
-    randomButton = new Button(randomImg, 840, 864);
-    helpButton = new Button(helpImg, 1206, 864);
-    saveButton = new Button(saveImg, 1572, 864);
+    
+    randomButton = new Button(randomImg, 842, 831);
+    playButton = new Button(playImg, 984, 816, stopImg);
+    saveButton = new Button(saveImg, 1156, 831);
+
+    helpButton = new Button(helpImg, 1831, 992);
 }
 
 function createNoteImgs(notes) {
