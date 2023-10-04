@@ -8,6 +8,9 @@ let saveButton;
 
 let backgroundImg;
 
+let slider;
+
+
 function preload() {
   if (typeof config.backgroundImage !== "undefined") { 
     backgroundImg = loadImage('img/' + config.backgroundImage)
@@ -25,6 +28,9 @@ function preload() {
   randomImg = loadImage('img/random.png');
   helpImg = loadImage('img/help.png');
   saveImg = loadImage('img/save.png');
+
+  fasterImg = loadImage('img/faster.png');
+  slowerImg = loadImage('img/faster.png');
 
   indicatorImg = loadImage('img/play_bar_indicator.png');
 }
@@ -52,10 +58,11 @@ function setup() {
     createNoteImgs(notes);
     createPart(notes);
 
-    
     randomButton = new Button(randomImg, 842, 831);
     playButton = new Button(playImg, 984, 816, stopImg);
     saveButton = new Button(saveImg, 1156, 831);
+
+    slider = new HScrollbar(910, 1030-8, 294, 16, 16, 0.0, 4.0, 1.0);
 
     helpButton = new Button(helpImg, 1831, 992);
 }
@@ -90,11 +97,19 @@ function draw() {
   helpButton.display();
   saveButton.display();
 
+  image(slowerImg, 821, 966);
+  image(fasterImg, 1207, 971);
+
   noteImgs.forEach( (note) => { note.display(); })
 
   let progressX = sequenceWidth * progress() - indicatorImg.width / 2;
   image(indicatorImg, menuWidth + 8 + progressX, 0);
+
+  slider.update();
+  slider.display();
 }
+
+
 
 function mousePressed() {
   if ( playButton.inBounds(mouseX, mouseY) ) {
@@ -178,6 +193,7 @@ function mouseMoved() {
 
 function mouseReleased() {
   updatePart();
+  nextPlaybackRate = slider.getValue();
   draggingIx = draggingOffset = undefined;
 }
 
@@ -317,4 +333,74 @@ function encodeURL() {
   const searchParrams = new URLSearchParams(params);
   const new_url = new URL(`${document.location.origin}${document.location.pathname}?${searchParrams.toString()}`)
   return new_url;
+}
+
+//https://stackoverflow.com/questions/57279316/the-createslider-function-creates-the-slider-outside-of-the-canvas-how-to-pos
+class HScrollbar {
+  constructor(x, y, w, h, r, min, max, value) {
+    this.width = w;
+    this.height = h;
+    this.radius = r;
+
+    this.valueMin = min;
+    this.valueMax = max;
+    this.value = value;
+
+    this.x = x;
+    this.y = y - this.height / 2;
+
+    this.posMin = this.x + this.radius;
+    this.posMax = this.x + this.width - this.radius;
+    this.pos = this.posMin + (this.posMax - this.posMin) * map(this.value, this.valueMin, this.valueMax, 0, 1);
+    
+    this.over = false;
+    this.locked = false;
+  }
+
+  update() {
+    if (this.overEvent()) {
+      this.over = true;
+    } else {
+      this.over = false;
+    }
+    if (mouseIsPressed && this.over) {
+      this.locked = true;
+    }
+    if (!mouseIsPressed) {
+      this.locked = false;
+    }
+    if (this.locked) {
+      this.pos = constrain(mouseX, this.posMin, this.posMax);
+    }
+  }
+
+  overEvent() {
+    if (mouseX > this.x && mouseX < this.x+this.width &&
+       mouseY > this.y && mouseY < this.y+this.height) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  display() {
+    noStroke();
+
+    let f = color(config.sliderColor);
+    fill(f);
+    let dW = this.pos - this.x;
+    rect(this.x, this.y - this.height/2, dW, this.height, this.radius / 2);
+    f.setAlpha(127);
+    fill(f);
+    rect(this.pos, this.y - this.height/2, this.width - dW, this.height);
+
+    f.setAlpha(255);
+    fill(f);
+    circle(this.pos, this.y, this.radius * 2);
+  }
+
+  getValue() {
+    let relative = (this.pos - this.posMin) / (this.posMax - this.posMin);
+    return map(relative, 0, 1, this.valueMin, this.valueMax);
+  }
 }
