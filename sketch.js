@@ -10,6 +10,8 @@ let backgroundImg;
 
 let slider;
 
+let lastEvent;
+let tapNote;
 
 function preload() {
   if (typeof config.backgroundImage !== "undefined") { 
@@ -112,6 +114,7 @@ function draw() {
 
 
 function mousePressed() {
+  lastEvent = millis();
   if ( playButton.inBounds(mouseX, mouseY) ) {
     updatePart();
     play();
@@ -151,6 +154,7 @@ function mousePressed() {
       break;
     }
     if ( noteImgs[i].inBounds(mouseX, mouseY) ) {
+      tapNote = noteImgs[i].noteValue;
       let relativePos = createVector(mouseX - noteImgs[i].x, mouseY - noteImgs[i].y);
       draggingIx = i;
       draggingOffset = relativePos;
@@ -175,7 +179,6 @@ function play() {
 }
 
 function mouseMoved() {
-
   if (draggingIx >= 0) {
     noteImgs.forEach((noteImg, index) => noteImg.hover = false);
     return;
@@ -192,6 +195,11 @@ function mouseMoved() {
 }
 
 function mouseReleased() {
+  let elapsed = millis() - lastEvent;
+  if (elapsed < 100) {
+    tapNote?.previewSound();
+  }
+  tapNote = undefined;
   updatePart();
   nextPlaybackRate = slider.getValue();
   draggingIx = draggingOffset = undefined;
