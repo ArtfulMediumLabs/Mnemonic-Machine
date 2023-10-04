@@ -179,6 +179,7 @@ function play() {
 }
 
 function mouseMoved() {
+
   if (draggingIx >= 0) {
     noteImgs.forEach((noteImg, index) => noteImg.hover = false);
     return;
@@ -400,7 +401,7 @@ class HScrollbar {
     rect(this.x, this.y - this.height/2, dW, this.height, this.radius / 2);
     f.setAlpha(127);
     fill(f);
-    rect(this.pos, this.y - this.height/2, this.width - dW, this.height);
+    rect(this.pos, this.y - this.height/2, this.width - dW, this.height, this.radius / 2);
 
     f.setAlpha(255);
     fill(f);
