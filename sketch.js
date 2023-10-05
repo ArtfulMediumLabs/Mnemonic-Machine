@@ -52,6 +52,7 @@ function setup() {
 
     let notes;
     if (shouldLoadURL) {
+      playbackRate = decodePlaybackRate() ?? 1.0;
       notes = decodeURL();
     } else {
       notes = randomNotes();
@@ -64,7 +65,7 @@ function setup() {
     playButton = new Button(playImg, 984, 816, stopImg);
     saveButton = new Button(saveImg, 1156, 831);
 
-    slider = new HScrollbar(910, 1030-8, 294, 16, 16, 0.0, 4.0, 1.0);
+    slider = new HScrollbar(910, 1030-8, 294, 16, 16, 0.0, 4.0, playbackRate);
 
     helpButton = new Button(helpImg, 1831, 992);
 }
@@ -129,7 +130,6 @@ function mousePressed() {
   }
 
   if ( helpButton.inBounds(mouseX, mouseY) ) {
-    let url = encodeURL();
     modalTinyNoFooter.setContent('<img id="help" src="img/help_modal.png">');
     modalTinyNoFooter.open();
     return;
@@ -314,6 +314,12 @@ function between(x, min, max) {
   return x >= min && x <= max;
 }
 
+function decodePlaybackRate() {
+  urlParams = new URLSearchParams(window.location.search);
+  let newRate = parseFloat(urlParams.get("r"));
+  return isNaN(newRate) ? null : newRate;
+}
+
 function decodeURL() {
   urlParams = new URLSearchParams(window.location.search);
   let notes = [];
@@ -331,7 +337,7 @@ function decodeURL() {
 }
 
 function encodeURL() {
-  let params = {};
+  let params = {r: playbackRate};
   noteImgs.forEach( (noteImg, index) => {
     let noteValue = noteImg.noteValue;
     params['v' + index] = noteValue.voiceIndex;
