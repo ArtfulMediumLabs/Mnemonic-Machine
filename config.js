@@ -18,3 +18,5 @@ config.backgroundColor = '#FFD126';
 config.backgroundImage = 'lukas-blazek-EWDvHNNfUmQ-unsplash.jpg';
 
 config.sliderColor = '#1C274C';
+
+config.tapDelay = 150;

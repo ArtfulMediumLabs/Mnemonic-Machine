@@ -197,7 +197,7 @@ function mouseMoved() {
 
 function mouseReleased() {
   let elapsed = millis() - lastEvent;
-  if (elapsed < 100) {
+  if (elapsed < config.tapDelay) {
     tapNote?.previewSound();
   }
   tapNote = undefined;
