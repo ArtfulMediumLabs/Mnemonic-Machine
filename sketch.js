@@ -65,7 +65,7 @@ function setup() {
     playButton = new Button(playImg, 984, 816, stopImg);
     saveButton = new Button(saveImg, 1156, 831);
 
-    slider = new HScrollbar(910, 1030-8, 294, 16, 16, 0.0, 4.0, playbackRate);
+    slider = new HScrollbar(910, 1030-8, 294, 16, 16, 0.1, 4.0, playbackRate);
 
     helpButton = new Button(helpImg, 1831, 992);
 }
@@ -337,7 +337,7 @@ function decodeURL() {
 }
 
 function encodeURL() {
-  let params = {r: playbackRate};
+  let params = {r: nextPlaybackRate};
   noteImgs.forEach( (noteImg, index) => {
     let noteValue = noteImg.noteValue;
     params['v' + index] = noteValue.voiceIndex;
